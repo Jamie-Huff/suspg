@@ -15,12 +15,18 @@ function App() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
-  const handleChange = (event) => {
+  const handleChangeWater = (event) => {
     setWaterChecked(event.target.checked);
-    setGasChecked(event.target.checked);
-    setElectricityChecked(event.target.checked);
   };
 
+  const handleChangeGas = (event) => {
+    setGasChecked(event.target.checked);
+  };
+
+  const handleChangeElectricity = (event) => {
+    setElectricityChecked(event.target.checked);
+  };
+  // https://www.npmjs.com/package/react-datepicker need to figure this part out
   const handleDateChange = (event) => {
     console.log(endDate)
   }
@@ -40,7 +46,7 @@ function App() {
           <ul>
             <Checkbox
               waterChecked={waterChecked}
-              onChange={handleChange}
+              onChange={handleChangeWater}
               inputProps={{ 'aria-label': 'controlled' }}
             />
             Electricity
@@ -48,7 +54,7 @@ function App() {
           <ul>
             <Checkbox
               gasChecked={gasChecked}
-              onChange={handleChange}
+              onChange={handleChangeGas}
               inputProps={{ 'aria-label': 'controlled' }}
             />
             Water
@@ -56,7 +62,7 @@ function App() {
           <ul>
             <Checkbox
               electricityChecked={electricityChecked}
-              onChange={handleChange}
+              onChange={handleChangeElectricity}
               inputProps={{ 'aria-label': 'controlled' }}
             />
             Gas
