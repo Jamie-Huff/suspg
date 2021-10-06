@@ -1,6 +1,8 @@
 import { /* inject, */ BindingScope, injectable} from '@loopback/core';
 import {Filter} from '@loopback/repository';
 import {GasConsumption} from '../models';
+import csv from 'csv-parser';
+import fs = require('fs');
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class GasBillDataService {
@@ -9,7 +11,18 @@ export class GasBillDataService {
   async getAll(
     filter?: Filter<GasConsumption>,
   ): Promise<Array<GasConsumption>> {
+    return new Promise<Array<GasConsumption>> ((resolve,reject)=>{
+      let records: Array<GasConsumption> = [];
 
-    return [];
+      fs.createReadStream('./data/electricity_bill_data.csv')
+      .pipe(csv())
+      .on('data', (row) => {
+        records.push(new GasConsumption(row));
+      })
+      .on('end', () => {
+        console.log('CSV file successfully processed');
+        resolve(records);
+      });
+    });
   }
 }

@@ -50,6 +50,8 @@
     "@loopback/rest": "^9.0.0",
     "@loopback/rest-explorer": "^3.0.3",
     "@loopback/service-proxy": "^3.0.3",
+    "csv-parse": "^4.16.3",
+    "csv-parser": "^3.0.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
