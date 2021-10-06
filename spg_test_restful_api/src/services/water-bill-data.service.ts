@@ -14,7 +14,7 @@ export class WaterBillDataService {
     return new Promise<Array<WaterConsumption>> ((resolve,reject)=>{
       let records: Array<WaterConsumption> = [];
 
-      fs.createReadStream('./data/electricity_bill_data.csv')
+      fs.createReadStream('./data/water_bill_data.csv')
       .pipe(csv())
       .on('data', (row) => {
         records.push(new WaterConsumption(row));

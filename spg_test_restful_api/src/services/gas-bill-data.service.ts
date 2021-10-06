@@ -14,7 +14,7 @@ export class GasBillDataService {
     return new Promise<Array<GasConsumption>> ((resolve,reject)=>{
       let records: Array<GasConsumption> = [];
 
-      fs.createReadStream('./data/electricity_bill_data.csv')
+      fs.createReadStream('./data/gas_bill_data.csv')
       .pipe(csv())
       .on('data', (row) => {
         records.push(new GasConsumption(row));
