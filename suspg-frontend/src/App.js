@@ -7,49 +7,78 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
+import { getGasConsumption, getWaterConsumption, getElectricConsumption} from "./helpers/filterBill";
 
 function App() {
-  // issues: 
-    // 1: This variable where we import our data is causing the webpage to die? im geussing infinite loadding?
-        //const { waterBill, gasBill, electricityBill, setWaterBill, setGasBill, setElectrictyBill } = useApplicationData()'
-    // 2: Figure out how to use the pages state to display nothing a first, 
-        //then display various data depending on what checkbox
-
   const [waterChecked, setWaterChecked] = React.useState(true);
   const [gasChecked, setGasChecked] = React.useState(true);
   const [electricityChecked, setElectricityChecked] = React.useState(true);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [waterData, setWaterData] = useState(null);
+  const [gasData, setGasData] = useState(null);
+  const [electricityData, setElectricityData] = useState(null);
+  const { waterBill, gasBill, electricityBill } = useApplicationData()
 
-  const handleChangeWater = (event) => {
-    setWaterChecked(event.target.checked);
-  };
-
-  const handleChangeGas = (event) => {
-    setGasChecked(event.target.checked);
-  };
-
-  const handleChangeElectricity = (event) => {
-    setElectricityChecked(event.target.checked);
-  };
-  // https://www.npmjs.com/package/react-datepicker need to figure this part out
-  const handleDateChange = (event) => {
-    console.log(endDate)
-  }
 
   const options = {
     title: {
       text: 'Utility Consumption'
     },
     series: [{
-        name: 'power',
-        data: [100, 200, 30, 100, 30, 50, 100]
-      }],
+        name: 'Water Consumption',
+        data: waterData
+      },
+        {
+        name: 'Gas Consumption',
+        data: gasData
+      },
+        {
+        name: 'Electricity Consumption',
+        data: electricityData
+        }
+    ],
     yAxis: {
       title: {
         text: 'Consumption ( k/Wh )'
       }
     }
+  }
+
+  const handleChangeWater = (event) => {
+    const checked = event.target.checked;
+    setWaterChecked(checked);
+    if (checked) {
+      // point names go off of their index, or the first value of  sub array
+      setWaterData([['test1', 1], ['test2', 2], 3, 4])
+    } else {
+      setWaterData([])
+    }
+    console.log(getWaterConsumption(waterBill))
+  };
+
+  const handleChangeGas = (event) => {
+    const checked = event.target.checked;
+    setGasChecked(checked);
+    if (checked) {
+      setGasData([15, 13, 11, 47])
+    } else {
+      setGasData([])
+    }
+  };
+
+  const handleChangeElectricity = (event) => {
+    const checked = event.target.checked;
+    setElectricityChecked(checked);
+    if (checked) {
+      setElectricityData([10, 23, 35, 4])
+    } else {
+      setElectricityData([])
+    }
+  };
+  // https://www.npmjs.com/package/react-datepicker need to figure this part out
+  const handleDateChange = (event) => {
+    console.log(endDate)
   }
 
   return (
@@ -63,30 +92,31 @@ function App() {
       </div>
        
       <h2>Utility Type</h2>
-        <ul>
+        <ul>           
           <ul>
             <Checkbox
               waterChecked={waterChecked}
               onChange={handleChangeWater}
+              defaultChecked={false}
               inputProps={{ 'aria-label': 'controlled' }}
             />
-            Electricity
-          </ul>
+            Water
+          </ul>          
           <ul>
             <Checkbox
               gasChecked={gasChecked}
               onChange={handleChangeGas}
               inputProps={{ 'aria-label': 'controlled' }}
             />
-            Water
-          </ul>
+            Gas
+          </ul>         
           <ul>
             <Checkbox
               electricityChecked={electricityChecked}
               onChange={handleChangeElectricity}
               inputProps={{ 'aria-label': 'controlled' }}
             />
-            Gas
+            Electricity
           </ul>
         </ul>
 

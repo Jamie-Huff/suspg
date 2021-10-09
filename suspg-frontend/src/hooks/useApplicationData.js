@@ -18,7 +18,7 @@ const [electricityBill, setElectricityBill] = useState(null);
         const newGasBill = data
         setGasBill(newGasBill);
       }
-    }catch(err) {
+    } catch(err) {
       console.log(err);
     }
   }
@@ -57,7 +57,7 @@ const [electricityBill, setElectricityBill] = useState(null);
     getElectricity();
     getGas();
     getWater();
-  }, [waterBill, gasBill, electricityBill]);
+  }, []);
 
   return {
     gasBill,
