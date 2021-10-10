@@ -2,8 +2,15 @@ export function getElectricConsumption(data) {
   console.log(data)
 }
 
-export function getWaterConsumption(data, utility) {
-  
+export function getConsumption(data, utility) {
+  let consumptionParameter = ''
+  if (utility === 'water') {
+    consumptionParameter = 'm_3_consumption'
+  } else if (utility === 'gas') {
+    consumptionParameter = 'g_j_consumption'
+  } else if (utility === 'electricity') {
+    consumptionParameter = 'k_wh_consumption'
+  }
 
   let years = []
   let yearsAndMonths = []
@@ -11,9 +18,17 @@ export function getWaterConsumption(data, utility) {
     let billMonth = bill['month']
     // bills during or before 2016 start at zero index instead of 1, this takes care of that issue
       // not the best practice but will check later if theres any other way to identify this issue
-    if (bill['year'] <= '2016') {
+    if (bill['year'] <= '2016' && utility === 'water') {
+      billMonth = ((Number(bill['month']) + 1).toString())
+    } else if (utility === 'gas') {
+      billMonth = ((Number(bill['month']) + 1).toString())
+    } else if (utility === 'electricity') {
       billMonth = ((Number(bill['month']) + 1).toString())
     }
+    if (billMonth === '13') {
+      continue
+    }
+  
     // if the years array doesn't contain the current year of the bill, add it, otherwise skip this step
     if (!years.includes(bill['year'])) {
       years.push(bill['year'])
@@ -28,11 +43,13 @@ export function getWaterConsumption(data, utility) {
     
     // if the year is a match, add that bills data to the specific month for that specific year
     for (const yearObj of yearsAndMonths) { 
-      if (yearObj['year'] === year && (!yearObj['months'][month].includes(bill["m_3_consumption"]))) {
-        yearObj['months'][month].push(Number(bill["m_3_consumption"]))
+      console.log(month)
+      if (yearObj['year'] === year && (!yearObj['months'][month].includes(bill[consumptionParameter]))) {
+        yearObj['months'][month].push(Number(bill[consumptionParameter]))
       }
     }
   }
+  console.log(yearsAndMonths)
   return yearsAndMonths
 }
 

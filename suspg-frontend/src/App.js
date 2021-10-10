@@ -7,7 +7,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
-import { getGasConsumption, getWaterConsumption, getElectricConsumption, makeDataChartable} from "./helpers/filterBill";
+import { getConsumption, makeDataChartable} from "./helpers/filterBill";
 
 function App() {
   const [waterChecked, setWaterChecked] = React.useState(true);
@@ -55,7 +55,7 @@ function App() {
     if (checked) {
       // point names go off of their index, or the first value of  sub array
       setWaterData([['Apr', 1], ['test2', 2], 3, 4])
-      let test = getWaterConsumption(waterBill)
+      let test = getConsumption(waterBill, 'water')
       let mappingdata = makeDataChartable(test)
       setWaterData(mappingdata)
       // getWaterConsumption(waterBill) gets us all of the data we could need sorted into years and month.
@@ -63,14 +63,19 @@ function App() {
     } else {
       setWaterData([])
     }
-    
   };
 
   const handleChangeGas = (event) => {
     const checked = event.target.checked;
     setGasChecked(checked);
     if (checked) {
-      setGasData([15, 13, 11, 47])
+      // point names go off of their index, or the first value of  sub array
+      setGasData([['Apr', 1], ['test2', 2], 3, 4])
+      let test = getConsumption(gasBill, 'gas')
+      let mappingdata = makeDataChartable(test)
+      setGasData(mappingdata)
+      // getWaterConsumption(waterBill) gets us all of the data we could need sorted into years and month.
+      // next we need to worry aobut mapping it
     } else {
       setGasData([])
     }
@@ -80,7 +85,13 @@ function App() {
     const checked = event.target.checked;
     setElectricityChecked(checked);
     if (checked) {
-      setElectricityData([10, 23, 35, 4])
+      // point names go off of their index, or the first value of  sub array
+      setElectricityData([['Apr', 1], ['test2', 2], 3, 4])
+      let test = getConsumption(electricityBill, 'electricity')
+      let mappingdata = makeDataChartable(test)
+      setElectricityData(mappingdata)
+      // getWaterConsumption(waterBill) gets us all of the data we could need sorted into years and month.
+      // next we need to worry aobut mapping it
     } else {
       setElectricityData([])
     }
@@ -118,6 +129,7 @@ function App() {
             <Checkbox
               gasChecked={gasChecked}
               onChange={handleChangeGas}
+              defaultChecked={false}
               inputProps={{ 'aria-label': 'controlled' }}
             />
             Gas
