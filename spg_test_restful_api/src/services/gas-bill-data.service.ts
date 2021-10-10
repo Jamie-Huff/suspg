@@ -17,7 +17,7 @@ export class GasBillDataService {
       fs.createReadStream('./data/gas_bill_data.csv')
       .pipe(csv())
       .on('data', (row) => {
-        records.push(row);
+        records.push(new GasConsumption(row));
       })
       .on('end', () => {
         console.log('CSV file successfully processed');

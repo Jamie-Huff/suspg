@@ -17,7 +17,7 @@ export class WaterBillDataService {
       fs.createReadStream('./data/water_bill_data.csv')
       .pipe(csv())
       .on('data', (row) => {
-        records.push(row);
+        records.push(new WaterConsumption(row));
       })
       .on('end', () => {
         console.log('CSV file successfully processed');
