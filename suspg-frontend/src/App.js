@@ -13,8 +13,8 @@ function App() {
   const [waterChecked, setWaterChecked] = React.useState(true);
   const [gasChecked, setGasChecked] = React.useState(true);
   const [electricityChecked, setElectricityChecked] = React.useState(true);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
   const [waterData, setWaterData] = useState(null);
   const [gasData, setGasData] = useState(null);
   const [electricityData, setElectricityData] = useState(null);
@@ -92,20 +92,17 @@ function App() {
       setElectricityData([])
     }
   };
+
   // https://www.npmjs.com/package/react-datepicker need to figure this part out
-  const handleChange = date => {
-    const valueOfInput = date;
-    console.log(valueOfInput)
-  };
 
   return (
     <div>
       <h1>Filters</h1>
       <div> 
           From
-          <DatePicker selected={startDate} onChange={(v => setStartDate(v))} dateFormat="yyyy-MM" showMonthYearPicker showFullMonthYearPicker showTwoColumnMonthYearPicker todayButton="Today" maxDate={new Date()} placeholderText='Results from:' defaultDate={''}/>
+          <DatePicker selected={startDate} onChange={(v => console.log(v) || setStartDate(v))} dateFormat="yyyy-MM" showMonthYearPicker showFullMonthYearPicker showTwoColumnMonthYearPicker todayButton="Today" maxDate={new Date()} placeholderText='Results from' defaultDate={''}/>
           To
-          <DatePicker selected={endDate} onChange={(v => setEndDate(v))} dateFormat="yyyy-MM" showMonthYearPicker showFullMonthYearPicker showTwoColumnMonthYearPicker todayButton="Today" maxDate={new Date()} placeholderText='Results to:' defaultDate={''}/>
+          <DatePicker selected={endDate} onChange={(v => console.log(v) || setEndDate(v))} dateFormat="yyyy-MM" showMonthYearPicker showFullMonthYearPicker showTwoColumnMonthYearPicker todayButton="Today" maxDate={new Date()} placeholderText='Results to' defaultDate={''}/>
       </div>
        
       <h2>Utility Type</h2>
