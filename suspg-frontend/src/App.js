@@ -20,8 +20,6 @@ function App() {
   const [electricityData, setElectricityData] = useState(null);
   const { waterBill, gasBill, electricityBill } = useApplicationData()
   
-
-
   const options = {
     title: {
       text: 'Utility Consumption'
@@ -55,7 +53,6 @@ function App() {
     setWaterChecked(checked);
     if (checked) {
       // point names go off of their index, or the first value of  sub array
-      setWaterData([['Apr', 1], ['test2', 2], 3, 4])
       let test = getConsumption(waterBill, 'water')
       let mappingdata = makeDataChartable(test)
       setWaterData(mappingdata)
@@ -71,7 +68,6 @@ function App() {
     setGasChecked(checked);
     if (checked) {
       // point names go off of their index, or the first value of  sub array
-      setGasData([['Apr', 1], ['test2', 2], 3, 4])
       let test = getConsumption(gasBill, 'gas')
       let mappingdata = makeDataChartable(test)
       setGasData(mappingdata)
@@ -87,7 +83,6 @@ function App() {
     setElectricityChecked(checked);
     if (checked) {
       // point names go off of their index, or the first value of  sub array
-      setElectricityData([['Apr', 1], ['test2', 2], 3, 4])
       let test = getConsumption(electricityBill, 'electricity')
       let mappingdata = makeDataChartable(test)
       setElectricityData(mappingdata)
@@ -106,11 +101,11 @@ function App() {
   return (
     <div>
       <h1>Filters</h1>
-      <div>
+      <div> 
           From
-          <DatePicker selected={startDate} onChange={handleChange} dateFormat="yyyy-MM" showMonthYearPicker showFullMonthYearPicker showTwoColumnMonthYearPicker todayButton="Today" maxDate={new Date()} placeholderText='Results from:' defaultDate={''}/>
+          <DatePicker selected={startDate} onChange={(v => setStartDate(v))} dateFormat="yyyy-MM" showMonthYearPicker showFullMonthYearPicker showTwoColumnMonthYearPicker todayButton="Today" maxDate={new Date()} placeholderText='Results from:' defaultDate={''}/>
           To
-          <DatePicker selected={startDate} onChange={handleChange} dateFormat="yyyy-MM" showMonthYearPicker showFullMonthYearPicker showTwoColumnMonthYearPicker todayButton="Today" maxDate={new Date()} placeholderText='Results to:' defaultDate={''}/>
+          <DatePicker selected={endDate} onChange={(v => setEndDate(v))} dateFormat="yyyy-MM" showMonthYearPicker showFullMonthYearPicker showTwoColumnMonthYearPicker todayButton="Today" maxDate={new Date()} placeholderText='Results to:' defaultDate={''}/>
       </div>
        
       <h2>Utility Type</h2>

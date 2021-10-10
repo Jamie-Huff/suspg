@@ -61,5 +61,8 @@ export function makeDataChartable(data) {
   return alldata
 }
 
-
+export function filterDate(to, from) {
+  console.log(to)
+  console.log(from)
+}
 
