@@ -3,6 +3,8 @@ export function getElectricConsumption(data) {
 }
 
 export function getWaterConsumption(data, utility) {
+  
+
   let years = []
   let yearsAndMonths = []
   for (const bill of data) {
