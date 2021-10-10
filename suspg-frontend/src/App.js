@@ -19,6 +19,7 @@ function App() {
   const [gasData, setGasData] = useState(null);
   const [electricityData, setElectricityData] = useState(null);
   const { waterBill, gasBill, electricityBill } = useApplicationData()
+  
 
 
   const options = {
@@ -97,21 +98,19 @@ function App() {
     }
   };
   // https://www.npmjs.com/package/react-datepicker need to figure this part out
-  const handleDateChange = (event) => {
-    console.log(endDate)
-  }
+  const handleChange = date => {
+    const valueOfInput = date;
+    console.log(valueOfInput)
+  };
 
   return (
     <div>
       <h1>Filters</h1>
       <div>
           From
-          <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="yyyy-MM" showMonthYearPicker showFullMonthYearPicker
-      showTwoColumnMonthYearPicker todayButton="Today" maxDate={new Date()} placeholderText='Results from:' defaultDate={''}/>
-          
+          <DatePicker selected={startDate} onChange={handleChange} dateFormat="yyyy-MM" showMonthYearPicker showFullMonthYearPicker showTwoColumnMonthYearPicker todayButton="Today" maxDate={new Date()} placeholderText='Results from:' defaultDate={''}/>
           To
-          <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} dateFormat="yyyy-MM" showMonthYearPicker showFullMonthYearPicker
-      showTwoColumnMonthYearPicker todayButton="Today" maxDate={new Date()} placeholderText='Results to:'/>
+          <DatePicker selected={startDate} onChange={handleChange} dateFormat="yyyy-MM" showMonthYearPicker showFullMonthYearPicker showTwoColumnMonthYearPicker todayButton="Today" maxDate={new Date()} placeholderText='Results to:' defaultDate={''}/>
       </div>
        
       <h2>Utility Type</h2>

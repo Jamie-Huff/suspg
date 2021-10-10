@@ -13,7 +13,6 @@ export class ElectricityBillDataService {
   ): Promise<Array<ElectricityConsumption>> {
     return new Promise<Array<ElectricityConsumption>> ((resolve,reject)=>{
       let records: Array<ElectricityConsumption> = [];
-      console.log('@@@', records)
       fs.createReadStream('./data/electricity_bill_data.csv')
       .pipe(csv())
       .on('data', (row) => {

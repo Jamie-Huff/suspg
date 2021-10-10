@@ -1,7 +1,3 @@
-export function getElectricConsumption(data) {
-  console.log(data)
-}
-
 export function getConsumption(data, utility) {
   let consumptionParameter = ''
   if (utility === 'water') {
@@ -43,18 +39,12 @@ export function getConsumption(data, utility) {
     
     // if the year is a match, add that bills data to the specific month for that specific year
     for (const yearObj of yearsAndMonths) { 
-      console.log(month)
       if (yearObj['year'] === year && (!yearObj['months'][month].includes(bill[consumptionParameter]))) {
         yearObj['months'][month].push(Number(bill[consumptionParameter]))
       }
     }
   }
-  console.log(yearsAndMonths)
   return yearsAndMonths
-}
-
-export function getGasConsumption(data) {
-
 }
 
 export function makeDataChartable(data) {
@@ -69,5 +59,7 @@ export function makeDataChartable(data) {
     }
   }
   return alldata
-
 }
+
+
+

@@ -22,7 +22,6 @@ const [electricityBill, setElectricityBill] = useState(null);
       console.log(err);
     }
   }
-
 //to fetch cart from the back end
   const getWater = async () => {
     try{
