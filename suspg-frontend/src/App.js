@@ -9,15 +9,25 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
 import { getConsumption, makeDataChartable} from "./helpers/filterBill";
 
+// need to do: make the handlechange functions just 1 function
+// render dates at every instance of rerendering bill components
+// show only dates within that specific timeline
+    // best way to do this? probably add another parameter to the function called (applyDates with the values of true or false)
+      // true = continue past the original end statement and do more changes to the data
+      // false = return the data at the original point
+    // if applyDates === true && startDate !== undefined
+// update variable names in bill renderers
+// make the text for the y axis re render with all the correct parameters
+
 function App() {
   const [waterChecked, setWaterChecked] = React.useState(true);
   const [gasChecked, setGasChecked] = React.useState(true);
   const [electricityChecked, setElectricityChecked] = React.useState(true);
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  const [waterData, setWaterData] = useState(null);
-  const [gasData, setGasData] = useState(null);
-  const [electricityData, setElectricityData] = useState(null);
+  const [startDate, setStartDate] = useState(new Date("2010-01-02")); // year // mm // day
+  const [endDate, setEndDate] = useState(new Date());
+  const [waterData, setWaterData] = useState([false]);
+  const [gasData, setGasData] = useState([false]);
+  const [electricityData, setElectricityData] = useState([false]);
   const { waterBill, gasBill, electricityBill } = useApplicationData()
   
   const options = {
@@ -48,7 +58,6 @@ function App() {
   }
 
   const handleChangeWater = (event) => {
-    // current error: on third click program errors out, probably because of the thirteen number
     const checked = event.target.checked;
     setWaterChecked(checked);
     if (checked) {
@@ -56,10 +65,9 @@ function App() {
       let test = getConsumption(waterBill, 'water')
       let mappingdata = makeDataChartable(test)
       setWaterData(mappingdata)
-      // getWaterConsumption(waterBill) gets us all of the data we could need sorted into years and month.
-      // next we need to worry aobut mapping it
+      // ------------- need to run the date also when ever we update our data -------------------
     } else {
-      setWaterData([])
+      setWaterData([false])
     }
   };
 
@@ -71,10 +79,8 @@ function App() {
       let test = getConsumption(gasBill, 'gas')
       let mappingdata = makeDataChartable(test)
       setGasData(mappingdata)
-      // getWaterConsumption(waterBill) gets us all of the data we could need sorted into years and month.
-      // next we need to worry aobut mapping it
     } else {
-      setGasData([])
+      setGasData([false])
     }
   };
 
@@ -83,15 +89,43 @@ function App() {
     setElectricityChecked(checked);
     if (checked) {
       // point names go off of their index, or the first value of  sub array
-      let test = getConsumption(electricityBill, 'electricity')
-      let mappingdata = makeDataChartable(test)
+      let billData = getConsumption(electricityBill, 'electricity')
+      let mappingdata = makeDataChartable(billData)
       setElectricityData(mappingdata)
-      // getWaterConsumption(waterBill) gets us all of the data we could need sorted into years and month.
-      // next we need to worry aobut mapping it
     } else {
-      setElectricityData([])
+      setElectricityData([false])
     }
   };
+
+  const filterDates = (startDate, endDate, waterData, gasData, electricityData) => {
+    let startingValue = startDate
+    let endingValue = endDate
+    setStartDate(startingValue)
+    setEndDate(endingValue)
+    console.log(startingValue, endingValue)
+    console.log(waterData, gasData, electricityData)
+    if (waterData[0] !== false) {
+      console.log('@@@')
+      let billData = getConsumption(waterBill, 'water')
+      let mappingData = makeDataChartable(billData)
+      // 2nd parameter for billData ~true~ would go in above here
+      setWaterData(mappingData)
+    }
+    if (gasData[0] !== false) {
+      console.log('@@@')
+      let billData = getConsumption(gasBill, 'gas')
+      let mappingData = makeDataChartable(billData)
+      // 2nd parameter for billData ~true~ would go in above here
+      setGasData(mappingData)
+    }
+    if (electricityData[0] !== false) {
+      console.log('@@@')
+      let billData = getConsumption(electricityBill, 'electricity')
+      let mappingData = makeDataChartable(billData)
+      // 2nd parameter for billData ~true~ would go in above here
+      setElectricityData(mappingData)
+    }
+  }
 
   // https://www.npmjs.com/package/react-datepicker need to figure this part out
 
@@ -100,9 +134,29 @@ function App() {
       <h1>Filters</h1>
       <div> 
           From
-          <DatePicker selected={startDate} onChange={(v => console.log(v) || setStartDate(v))} dateFormat="yyyy-MM" showMonthYearPicker showFullMonthYearPicker showTwoColumnMonthYearPicker todayButton="Today" maxDate={new Date()} placeholderText='Results from' defaultDate={''}/>
+          <DatePicker selected={startDate} 
+            onChange={(v => filterDates(v, endDate, waterData, gasData, electricityData))} 
+            dateFormat="yyyy-MM" 
+            showMonthYearPicker 
+            showFullMonthYearPicker 
+            showTwoColumnMonthYearPicker 
+            todayButton="Today" 
+            maxDate={new Date()} 
+            placeholderText='Results from' 
+            defaultDate={''}
+          />
           To
-          <DatePicker selected={endDate} onChange={(v => console.log(v) || setEndDate(v))} dateFormat="yyyy-MM" showMonthYearPicker showFullMonthYearPicker showTwoColumnMonthYearPicker todayButton="Today" maxDate={new Date()} placeholderText='Results to' defaultDate={''}/>
+          <DatePicker selected={endDate} 
+            onChange={(v => filterDates(startDate, v, waterData, gasData, electricityData))} 
+            dateFormat="yyyy-MM" 
+            showMonthYearPicker 
+            showFullMonthYearPicker
+            showTwoColumnMonthYearPicker 
+            todayButton="Today" 
+            maxDate={new Date()} 
+            placeholderText='Results to' 
+            defaultDate={''}
+          />
       </div>
        
       <h2>Utility Type</h2>
