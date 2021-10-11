@@ -45,7 +45,7 @@ export function getConsumption(data, utility, dates) {
     }
   }
   // this function filters down our dates for years
-  removeNonSelectedDates(yearsAndMonths, dates)
+  //return removeNonSelectedDates(yearsAndMonths, dates)
   return yearsAndMonths
 }
 
@@ -134,47 +134,52 @@ export function removeNonSelectedDates(billData, dates) {
   let billDataYearsRemoved = []
   // if a year is higher than the min, add it to the array, otherwise continue
   for (let year of billData) {
-    console.log(year['year'])
+    // if year too low, skip
     if (Number(year['year']) < Number(startDate[1])) {
       lowerRemovedYear.push(year['year'])
       continue
     }
+    // if year too high skip
     if (Number(year['year']) > Number(endDate[1])) {
       higherRemovedYear.push(year['year'])
       continue
     }
-
-    // all the years above and below are removed. We need to tackle months
+    // if year same, remove months before than the starting month selected
     if (Number(year['year']) === Number(startDate[1])) {
-      // using this we can get the array that holds the values for that month
-                  console.log(year['months']['1'])
-      // with that value, we make a new empty variable called 'fixedYear' which will contain our year with our parsed months
       let fixedYear = {months: {}, year: year['year']}
       let i = 1
-      // filter out months that are lower than the starting month
-      // add them to a new array values fixedYear
       for (const months in year['months']) {
         if (Number(months) < startDate[0]) {
           i++
           continue
         } else {
-          let array = {}
           fixedYear['months'][i] = year['months'][months]
           i++
         }
-        // if the month number is less than this, we need to remove it or maybe in our case
-        // we need to add the acceptable months to an array
-        //console.log(Number(months), startDate[0])
+      }
+      billDataYearsRemoved.push(fixedYear)
+      continue
+    }
+    // if year same, remove months after the ending month selected
+    if (Number(year['year']) === Number(endDate[1])) {
+      let fixedYear = {months: {}, year: year['year']}
+      let i = 1
+      // filter out months that are lower than the starting month
+      // add them to a new array values fixedYear
+      for (const months in year['months']) {
+        if (Number(months) > endDate[0]) {
+          i++
+          continue
+        } else {
+          fixedYear['months'][i] = year['months'][months]
+          i++
+        }
       }
       billDataYearsRemoved.push(fixedYear)
       continue
     }
     billDataYearsRemoved.push(year)
   }
-  // console.log(startDate, endDate)
-  // console.log(lowerRemovedYear, higherRemovedYear)
-  // console.log(billDataYearsRemoved)
-  console.log(billDataYearsRemoved)
   return billDataYearsRemoved
 }
 
