@@ -7,7 +7,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
-import { getConsumption, makeDataChartable} from "./helpers/filterBill";
+import { filterDate, getConsumption, makeDataChartable} from "./helpers/filterBill";
 
 // need to do: make the handlechange functions just 1 function
 // render dates at every instance of rerendering bill components
@@ -62,7 +62,8 @@ function App() {
     setWaterChecked(checked);
     if (checked) {
       // point names go off of their index, or the first value of  sub array
-      let test = getConsumption(waterBill, 'water')
+      let dates = filterDate(startDate, endDate)
+      let test = getConsumption(waterBill, 'water', dates)
       let mappingdata = makeDataChartable(test)
       setWaterData(mappingdata)
       // ------------- need to run the date also when ever we update our data -------------------
@@ -102,11 +103,11 @@ function App() {
     let endingValue = endDate
     setStartDate(startingValue)
     setEndDate(endingValue)
-    console.log(startingValue, endingValue)
-    console.log(waterData, gasData, electricityData)
+    // this chunk of code should be in its own function thats located in helpers ------------------------------------------
+    let dates = filterDate(startingValue, endingValue)
+    
     if (waterData[0] !== false) {
-      console.log('@@@')
-      let billData = getConsumption(waterBill, 'water')
+      let billData = getConsumption(waterBill, 'water', dates)
       let mappingData = makeDataChartable(billData)
       // 2nd parameter for billData ~true~ would go in above here
       setWaterData(mappingData)
