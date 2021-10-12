@@ -45,8 +45,8 @@ export function getConsumption(data, utility, dates) {
     }
   }
   // this function filters down our dates for years
-  //return removeNonSelectedDates(yearsAndMonths, dates)
-  return yearsAndMonths
+  return removeNonSelectedDates(yearsAndMonths, dates)
+  //return yearsAndMonths
 }
 
 export function makeDataChartable(data) {
