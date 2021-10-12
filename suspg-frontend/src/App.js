@@ -17,10 +17,9 @@ import { generateHighchartDates } from "./helpers/generateHighchartDates"
       // true = continue past the original end statement and do more changes to the data
       // false = return the data at the original point
     // if applyDates === true && startDate !== undefined
+    
 // update variable names in bill renderers
 // make the text for the y axis re render with all the correct parameters
-
-let highchartDateCategories = ['Jan 2010', 'Feb 2010', 'Mar 2010', 'Apr 2010', 'May 2010', 'Jun 2010', 'Jul 2010', 'Aug 2010', 'Sep 2010', 'Oct 2010', 'Nov 2010', 'Dec 2010', 'Jan 2011', 'Feb 2011', 'Mar 2011', 'Apr 2011', 'May 2011', 'Jun 2011', 'Jul 2011', 'Aug 2011', 'Sep 2011', 'Oct 2011', 'Nov 2011', 'Dec 2011', 'Jan 2012', 'Feb 2012', 'Mar 2012', 'Apr 2012', 'May 2012', 'Jun 2012', 'Jul 2012', 'Aug 2012', 'Sep 2012', 'Oct 2012', 'Nov 2012', 'Dec 2012', 'Jan 2013', 'Feb 2013', 'Mar 2013', 'Apr 2013', 'May 2013', 'Jun 2013', 'Jul 2013', 'Aug 2013', 'Sep 2013', 'Oct 2013', 'Nov 2013', 'Dec 2013', 'Jan 2014', 'Feb 2014', 'Mar 2014', 'Apr 2014', 'May 2014', 'Jun 2014', 'Jul 2014', 'Aug 2014', 'Sep 2014', 'Oct 2014', 'Nov 2014', 'Dec 2014', 'Jan 2015', 'Feb 2015', 'Mar 2015', 'Apr 2015', 'May 2015', 'Jun 2015', 'Jul 2015', 'Aug 2015', 'Sep 2015', 'Oct 2015', 'Nov 2015', 'Dec 2015', 'Jan 2016', 'Feb 2016', 'Mar 2016', 'Apr 2016', 'May 2016', 'Jun 2016', 'Jul 2016', 'Aug 2016', 'Sep 2016', 'Oct 2016', 'Nov 2016', 'Dec 2016', 'Jan 2017', 'Feb 2017', 'Mar 2017', 'Apr 2017', 'May 2017', 'Jun 2017', 'Jul 2017', 'Aug 2017', 'Sep 2017', 'Oct 2017', 'Nov 2017', 'Dec 2017', 'Jan 2018', 'Feb 2018', 'Mar 2018', 'Apr 2018', 'May 2018', 'Jun 2018', 'Jul 2018', 'Aug 2018', 'Sep 2018', 'Oct 2018', 'Nov 2018', 'Dec 2018', 'Jan 2019', 'Feb 2019', 'Mar 2019', 'Apr 2019', 'May 2019', 'Jun 2019', 'Jul 2019', 'Aug 2019', 'Sep 2019', 'Oct 2019', 'Nov 2019', 'Dec 2019', 'Jan 2020', 'Feb 2020', 'Mar 2020', 'Apr 2020', 'May 2020', 'Jun 2020', 'Jul 2020', 'Aug 2020', 'Sep 2020', 'Oct 2020', 'Nov 2020', 'Dec 2020']
 
 function App() {
   const [waterChecked, setWaterChecked] = React.useState(true);
@@ -32,7 +31,7 @@ function App() {
   const [gasData, setGasData] = useState([false]);
   const [electricityData, setElectricityData] = useState([false]);
   const { waterBill, gasBill, electricityBill } = useApplicationData()
-  const [highchartDates, setHighchartDates] = useState(highchartDateCategories)
+  const [highchartDates, setHighchartDates] = useState(generateHighchartDates(['months']))
   
 
   //setHighchartDates = generateDates(mappingData)
@@ -75,11 +74,12 @@ function App() {
       let mappingdata = makeDataChartable(test)
       setWaterData(mappingdata)
       setHighchartDates(generateHighchartDates(test))
-      console.log(highchartDates)
       // ------------- need to run the date also when ever we update our data -------------------
     } else {
       setWaterData([false])
+      if (electricityData[0] === false && gasData[0] === false) {
       setHighchartDates(generateHighchartDates(['months']))
+      }
     }
   };
 
@@ -95,6 +95,10 @@ function App() {
       setHighchartDates(generateHighchartDates(test))
     } else {
       setGasData([false])
+      if (electricityData[0] === false && waterData[0] === false) {
+        setHighchartDates(generateHighchartDates(['months']))
+        }
+
     }
   };
 
@@ -107,8 +111,12 @@ function App() {
       let billData = getConsumption(electricityBill, 'electricity', dates)
       let mappingdata = makeDataChartable(billData)
       setElectricityData(mappingdata)
+      setHighchartDates(generateHighchartDates(billData))
     } else {
       setElectricityData([false])
+      if (waterData[0] === false && gasData[0] === false) {
+        setHighchartDates(generateHighchartDates(['months']))
+        }
     }
   };
 
@@ -121,17 +129,24 @@ function App() {
     let dates = filterDate(startingValue, endingValue)
     
     if (waterData[0] !== false) {
+      // getConsumption gives us the consumption for our specificed times for the water data.
       let billData = getConsumption(waterBill, 'water', dates)
+      // sets the labels on highcharts to include our billing range
+      setHighchartDates(generateHighchartDates(billData))
+      // makes the data manageable by highcharts
       let mappingData = makeDataChartable(billData)
+      // updates our waterData state with the new mapped data 
       setWaterData(mappingData)
     }
     if (gasData[0] !== false) {
       let billData = getConsumption(gasBill, 'gas', dates)
+      setHighchartDates(generateHighchartDates(billData))
       let mappingData = makeDataChartable(billData)
       setGasData(mappingData)
     }
     if (electricityData[0] !== false) {
       let billData = getConsumption(electricityBill, 'electricity', dates)
+      setHighchartDates(generateHighchartDates(billData))
       let mappingData = makeDataChartable(billData)
       setElectricityData(mappingData)
     }

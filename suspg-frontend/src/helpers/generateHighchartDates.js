@@ -1,4 +1,5 @@
 export function generateHighchartDates(billData) {
+  console.log(billData)
   if (billData[0] === 'months') {
     return ['Months']
   }
@@ -49,8 +50,6 @@ export function generateHighchartDates(billData) {
       filteredDates.push(monthLabel)
     }
   }
-  console.log(filteredDates.length)
-
   //return ['test', 'test2', 'test3']
   return filteredDates
 }

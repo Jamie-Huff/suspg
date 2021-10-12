@@ -45,6 +45,7 @@ export function getConsumption(data, utility, dates) {
     }
   }
   // this function filters down our dates for years
+  console.log('@@', removeNonSelectedDates(yearsAndMonths, dates))
   return removeNonSelectedDates(yearsAndMonths, dates)
   //return yearsAndMonths
 }
