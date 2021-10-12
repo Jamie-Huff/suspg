@@ -9,7 +9,8 @@ import HighchartsReact from 'highcharts-react-official'
 import { getConsumption, makeDataChartable } from "./helpers/filterBill";
 import { generateHighchartDates } from "./helpers/generateHighchartDates"
 import { datesToArray } from "./helpers/datesToArray"
-//import "./styles/datepicker.scss"
+import { BiGasPump, BiWater,  } from "react-icons/bi";
+import { FaBolt } from "react-icons/fa";
 // need to do: make the handlechange functions just 1 function
 // render dates at every instance of rerendering bill components
 // show only dates within that specific timeline
@@ -45,7 +46,7 @@ function App() {
         data: gasData
       },
         {
-        name: 'Electricity Consumption ( kilowatt Hours )',
+        name: 'Electricity Consumption ( Kilowatt Hours )',
         data: electricityData
         }
     ],
@@ -164,6 +165,7 @@ function App() {
       <div className={'float-child', 'calender', 'left-calender'}>
           From
           <DatePicker selected={startDate} 
+
             onChange={(v => datesToArrays(v, endDate, waterData, gasData, electricityData))} 
             dateFormat="yyyy-MM" 
             showMonthYearPicker 
@@ -195,38 +197,68 @@ function App() {
       <div className={'filter-head-container'}>
       <h2 className={'date-head'}>Filter By Utility</h2>
       </div>
-        <ul>           
+      <div className={'float-container-checkboxes'}>      
           <ul>
+            <h3>Water</h3> 
+            <div className={'float-child-checkbox'}>
             <Checkbox
+              labelPlacement="top"
+              icon={<BiWater/>}
               waterChecked={waterChecked}
               onChange={handleChangeWater}
               defaultChecked={false}
               inputProps={{ 'aria-label': 'controlled' }}
+              style={{
+                color: "#6EC1E4",
+                width: 36,
+                height: 36,
+                transform: "scale(2)",
+              }}
             />
-            Water
+            
+            </div>
           </ul>          
           <ul>
+            <h3>Gasoline</h3>
+            <div className={'float-child-checkbox'}>
             <Checkbox
+              icon={<BiGasPump/>}
               gasChecked={gasChecked}
               onChange={handleChangeGas}
               defaultChecked={false}
               inputProps={{ 'aria-label': 'controlled' }}
+              style={{
+                color: "#54595F",
+                width: 36,
+                height: 36,
+                transform: "scale(2)"
+              }}
             />
-            Gas
+            </div>
           </ul>         
-          <ul>
+          <ul> 
+            <h3>Electricity</h3>
+            <div className={'float-child-checkbox'}>
             <Checkbox
+              icon={<FaBolt/>}
               electricityChecked={electricityChecked}
               onChange={handleChangeElectricity}
               inputProps={{ 'aria-label': 'controlled' }}
+              style={{
+                color: "#61CE70",
+                width: 36,
+                height: 36,
+                transform: "scale(2)"
+              }}
             />
-            Electricity
+           
+            </div>
           </ul>
-        </ul>
+        </div>
       </div>
       </div>
 
-    <div>
+    <div className={'chart-container'}>
       <HighchartsReact 
       highcharts={Highcharts} 
       options={options}

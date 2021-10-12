@@ -105,5 +105,29 @@ font-weight: 600;
   background-color: #54595F;
   color: white;
   margin: 0px;
+}
 
+.react-datepicker-wrapper {
+  margin: 12px 0;
+  width: 100%;
+}
+
+
+.react-datepicker__today-button {
+  color: #54595F;
+}
+
+.chart-container {
+  margin-top: 50px;
+}
+
+.float-container-checkboxes{
+  text-align: center;
+  margin: 0px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.float-child-checkbox{
+  display: table;
 }
