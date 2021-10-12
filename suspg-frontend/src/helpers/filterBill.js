@@ -44,7 +44,6 @@ export function getConsumption(data, utility, dates) {
     }
   }
   // this function filters down our dates for years
-  console.log('@@', removeNonSelectedDates(yearsAndMonths, dates))
   return removeNonSelectedDates(yearsAndMonths, dates)
   //return yearsAndMonths
 }
@@ -56,7 +55,6 @@ export function makeDataChartable(data) {
   // sort our data by year and put it into a new variable sortedData
   let sortedData = data.sort((a, b) => parseInt(a.year) - parseInt(b.year));
   for (const year of sortedData) {
-    //console.log(year['months'])
     for (const month in year['months']) {
       alldata.push(year['months'][month][0])
     }
