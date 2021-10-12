@@ -11,6 +11,29 @@ import { generateHighchartDates } from "./helpers/generateHighchartDates"
 import { datesToArray } from "./helpers/datesToArray"
 import { FaWater, FaGasPump } from "react-icons/fa";
 import { BsFillLightningFill } from "react-icons/bs"
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  water: {
+    color: "#6EC1E4",
+    width: 36,
+    height: 36,
+    transform: "scale(2)",
+  },
+  gas: {
+    color: "#54595F",
+    width: 36,
+    height: 36,
+    transform: "scale(2)"
+  },
+  electricity: {
+    color: "#61CE70",
+    width: 36,
+    height: 36,
+    transform: "scale(2)"
+  }
+
+}))
 
 function App() {
   const [waterChecked, setWaterChecked] = React.useState(true);
@@ -23,7 +46,7 @@ function App() {
   const [electricityData, setElectricityData] = useState([false]);
   const { waterBill, gasBill, electricityBill } = useApplicationData()
   const [highchartDates, setHighchartDates] = useState(generateHighchartDates(['months']))
-
+  const classes = useStyles();
   const options = {
     title: {
       text: 'Utility Consumption'
@@ -50,6 +73,10 @@ function App() {
       categories: highchartDates
     }
   }
+
+  
+  
+
 
 
   const handleChangeWater = (event) => {
@@ -193,12 +220,7 @@ function App() {
               onChange={handleChangeWater}
               defaultChecked={false}
               inputProps={{ 'aria-label': 'controlled' }}
-              style={{
-                color: "#6EC1E4",
-                width: 36,
-                height: 36,
-                transform: "scale(2)",
-              }}
+              className={classes.water}
             />
             
             </div>
@@ -212,12 +234,7 @@ function App() {
               onChange={handleChangeGas}
               defaultChecked={false}
               inputProps={{ 'aria-label': 'controlled' }}
-              style={{
-                color: "#54595F",
-                width: 36,
-                height: 36,
-                transform: "scale(2)"
-              }}
+              className={classes.gas}
             />
             </div>
           </ul>         
@@ -229,12 +246,7 @@ function App() {
               electricityChecked={electricityChecked}
               onChange={handleChangeElectricity}
               inputProps={{ 'aria-label': 'controlled' }}
-              style={{
-                color: "#61CE70",
-                width: 36,
-                height: 36,
-                transform: "scale(2)"
-              }}
+              className={classes.electricity}
             />
            
             </div>
