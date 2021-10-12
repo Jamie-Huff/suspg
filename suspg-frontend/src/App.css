@@ -74,3 +74,18 @@ font-weight: 600;
 .highcharts-data-table tr:hover {
   background: #f1f7ff;
 }
+
+.float-container {
+  display: flex;
+}
+
+.float-child { 
+  flex: 1;
+  border: 2px solid yellow;
+}
+
+.top {
+  background-color: greenyellow;
+  margin: 0px;
+  padding: 20px;
+}

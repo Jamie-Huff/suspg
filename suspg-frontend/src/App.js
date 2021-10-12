@@ -1,5 +1,4 @@
 import React, { useState, Component } from "react";
-import logo from './logo.svg';
 import './App.css';
 import useApplicationData from './hooks/useApplicationData';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -7,17 +6,13 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official'
-import { filterDate, getConsumption, makeDataChartable} from "./helpers/filterBill";
+import { getConsumption, makeDataChartable } from "./helpers/filterBill";
 import { generateHighchartDates } from "./helpers/generateHighchartDates"
-
+import { datesToArray } from "./helpers/datesToArray"
 // need to do: make the handlechange functions just 1 function
 // render dates at every instance of rerendering bill components
 // show only dates within that specific timeline
-    // best way to do this? probably add another parameter to the function called (applyDates with the values of true or false)
-      // true = continue past the original end statement and do more changes to the data
-      // false = return the data at the original point
-    // if applyDates === true && startDate !== undefined
-    
+
 // update variable names in bill renderers
 // make the text for the y axis re render with all the correct parameters
 
@@ -69,7 +64,7 @@ function App() {
     setWaterChecked(checked);
     if (checked) {
       // point names go off of their index, or the first value of  sub array
-      let dates = filterDate(startDate, endDate)
+      let dates = datesToArray(startDate, endDate)
       let test = getConsumption(waterBill, 'water', dates)
       let mappingdata = makeDataChartable(test)
       setWaterData(mappingdata)
@@ -88,7 +83,7 @@ function App() {
     setGasChecked(checked);
     if (checked) {
       // point names go off of their index, or the first value of  sub array
-      let dates = filterDate(startDate, endDate)
+      let dates = datesToArray(startDate, endDate)
       let test = getConsumption(gasBill, 'gas', dates)
       let mappingdata = makeDataChartable(test)
       setGasData(mappingdata)
@@ -107,7 +102,7 @@ function App() {
     setElectricityChecked(checked);
     if (checked) {
       // point names go off of their index, or the first value of  sub array
-      let dates = filterDate(startDate, endDate)
+      let dates = datesToArray(startDate, endDate)
       let billData = getConsumption(electricityBill, 'electricity', dates)
       let mappingdata = makeDataChartable(billData)
       setElectricityData(mappingdata)
@@ -120,13 +115,13 @@ function App() {
     }
   };
 
-  const filterDates = (startDate, endDate, waterData, gasData, electricityData) => {
+  const datesToArrays = (startDate, endDate, waterData, gasData, electricityData) => {
     let startingValue = startDate
     let endingValue = endDate
     setStartDate(startingValue)
     setEndDate(endingValue)
     // this chunk of code should be in its own function thats located in helpers ------------------------------------------
-    let dates = filterDate(startingValue, endingValue)
+    let dates = datesToArray(startingValue, endingValue)
     
     if (waterData[0] !== false) {
       // getConsumption gives us the consumption for our specificed times for the water data.
@@ -156,11 +151,15 @@ function App() {
 
   return (
     <div>
-      <h1>Filters</h1>
-      <div> 
+      <div className={'top'}>
+      <h1 >SPG Customer Consumption Metrics</h1>
+      </div>
+      <div className={'float-container'}>
+      <div className={'float-child'}> 
+      <h2>Search by date</h2>
           From
           <DatePicker selected={startDate} 
-            onChange={(v => filterDates(v, endDate, waterData, gasData, electricityData))} 
+            onChange={(v => datesToArrays(v, endDate, waterData, gasData, electricityData))} 
             dateFormat="yyyy-MM" 
             showMonthYearPicker 
             showFullMonthYearPicker 
@@ -172,7 +171,7 @@ function App() {
           />
           To
           <DatePicker selected={endDate} 
-            onChange={(v => filterDates(startDate, v, waterData, gasData, electricityData))} 
+            onChange={(v => datesToArrays(startDate, v, waterData, gasData, electricityData))} 
             dateFormat="yyyy-MM" 
             showMonthYearPicker 
             showFullMonthYearPicker
@@ -183,8 +182,8 @@ function App() {
             defaultDate={''}
           />
       </div>
-       
-      <h2>Utility Type</h2>
+      <div className={'float-child'}>
+      <h2>Search by utility type</h2>
         <ul>           
           <ul>
             <Checkbox
@@ -213,6 +212,8 @@ function App() {
             Electricity
           </ul>
         </ul>
+      </div>
+      </div>
 
     <div>
       <HighchartsReact 

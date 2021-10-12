@@ -7,7 +7,6 @@ export function getConsumption(data, utility, dates) {
   } else if (utility === 'electricity') {
     consumptionParameter = 'k_wh_consumption'
   }
-
   let years = []
   let yearsAndMonths = []
   for (const bill of data) {
@@ -50,6 +49,7 @@ export function getConsumption(data, utility, dates) {
   //return yearsAndMonths
 }
 
+
 export function makeDataChartable(data) {
   // alldata keeps track of all the data in the array
   let alldata = []
@@ -64,72 +64,10 @@ export function makeDataChartable(data) {
   return alldata
 }
 
-export function filterDate(to, from) {
-  // take in our big long strings of date data, and turn them into 2 manageable arrays with [month , year]
-  let datesArray = []
-  let startDateValueArray = to.toString().split(" ")
-  startDateValueArray.shift()
-  startDateValueArray.splice(3)
-  startDateValueArray.splice(1, 1)
-  let endDateValueArray = from.toString().split(" ")
-  endDateValueArray.shift()
-  endDateValueArray.splice(3)
-  endDateValueArray.splice(1, 1)
-  datesArray.push(startDateValueArray, endDateValueArray)
-  datesArray = monthStringToNumber(datesArray)
-  return datesArray
-}
-const monthStringToNumber = (datesArray) => {
-  for (const date of datesArray) {
-    switch (date[0]) {
-      case "Jan":
-        date[0] = 1
-        break;
-      case "Feb":
-        date[0] = 2
-        break;
-      case "Mar":
-        date[0] = 3
-        break;
-      case "Apr":
-        date[0] = 4
-        break;
-      case "May":
-        date[0] = 5
-        break;
-      case "Jun":
-        date[0] = 6
-        break;
-      case "Jul":
-        date[0] = 7
-        break;
-      case "Aug":
-        date[0] = 8
-        break;
-      case "Sep":
-        date[0] = 9
-        break;
-      case "Oct":
-        date[0] = 10
-        break;
-      case "Nov":
-        date[0] = 11
-        break;
-      case "Dec":
-        date[0] = 12
-        break;
-    }
-  }
-  return datesArray
-}
-
-
 
 export function removeNonSelectedDates(billData, dates) {
   let startDate = dates[0]
   let endDate = dates[1]
-  let lowerRemovedYear = []
-  let higherRemovedYear = []
   // sort the years in order
   billData.sort((a, b) => parseInt(a.year) - parseInt(b.year));
   let billDataYearsRemoved = []
@@ -137,12 +75,10 @@ export function removeNonSelectedDates(billData, dates) {
   for (let year of billData) {
     // if year too low, skip
     if (Number(year['year']) < Number(startDate[1])) {
-      lowerRemovedYear.push(year['year'])
       continue
     }
     // if year too high skip
     if (Number(year['year']) > Number(endDate[1])) {
-      higherRemovedYear.push(year['year'])
       continue
     }
     // if year same, remove months before than the starting month selected

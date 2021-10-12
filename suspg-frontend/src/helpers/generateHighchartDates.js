@@ -1,11 +1,10 @@
+// loop over months strings, creating graph values for each point
 export function generateHighchartDates(billData) {
-  console.log(billData)
   if (billData[0] === 'months') {
     return ['Months']
   }
   let filteredDates = []
   for (const year of billData) {
-    //console.log(year['months'])
     for (const month in year['months']) {
       let monthLabel = ''
       let yearLabel = year['year']
@@ -50,6 +49,5 @@ export function generateHighchartDates(billData) {
       filteredDates.push(monthLabel)
     }
   }
-  //return ['test', 'test2', 'test3']
   return filteredDates
 }
