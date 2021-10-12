@@ -11,12 +11,6 @@ import { generateHighchartDates } from "./helpers/generateHighchartDates"
 import { datesToArray } from "./helpers/datesToArray"
 import { BiGasPump, BiWater,  } from "react-icons/bi";
 import { FaBolt } from "react-icons/fa";
-// need to do: make the handlechange functions just 1 function
-// render dates at every instance of rerendering bill components
-// show only dates within that specific timeline
-
-// update variable names in bill renderers
-// make the text for the y axis re render with all the correct parameters
 
 function App() {
   const [waterChecked, setWaterChecked] = React.useState(true);
@@ -29,9 +23,6 @@ function App() {
   const [electricityData, setElectricityData] = useState([false]);
   const { waterBill, gasBill, electricityBill } = useApplicationData()
   const [highchartDates, setHighchartDates] = useState(generateHighchartDates(['months']))
-  
-
-  //setHighchartDates = generateDates(mappingData)
 
   const options = {
     title: {
@@ -67,11 +58,10 @@ function App() {
     if (checked) {
       // point names go off of their index, or the first value of  sub array
       let dates = datesToArray(startDate, endDate)
-      let test = getConsumption(waterBill, 'water', dates)
-      let mappingdata = makeDataChartable(test)
+      let waterBillConsumption = getConsumption(waterBill, 'water', dates)
+      let mappingdata = makeDataChartable(waterBillConsumption)
       setWaterData(mappingdata)
-      setHighchartDates(generateHighchartDates(test))
-      // ------------- need to run the date also when ever we update our data -------------------
+      setHighchartDates(generateHighchartDates(waterBillConsumption))
     } else {
       setWaterData([false])
       if (electricityData[0] === false && gasData[0] === false) {
@@ -84,12 +74,11 @@ function App() {
     const checked = event.target.checked;
     setGasChecked(checked);
     if (checked) {
-      // point names go off of their index, or the first value of  sub array
       let dates = datesToArray(startDate, endDate)
-      let test = getConsumption(gasBill, 'gas', dates)
-      let mappingdata = makeDataChartable(test)
+      let gasBillConsumption = getConsumption(gasBill, 'gas', dates)
+      let mappingdata = makeDataChartable(gasBillConsumption)
       setGasData(mappingdata)
-      setHighchartDates(generateHighchartDates(test))
+      setHighchartDates(generateHighchartDates(gasBillConsumption))
     } else {
       setGasData([false])
       if (electricityData[0] === false && waterData[0] === false) {
@@ -103,12 +92,11 @@ function App() {
     const checked = event.target.checked;
     setElectricityChecked(checked);
     if (checked) {
-      // point names go off of their index, or the first value of  sub array
       let dates = datesToArray(startDate, endDate)
-      let billData = getConsumption(electricityBill, 'electricity', dates)
-      let mappingdata = makeDataChartable(billData)
+      let electricityBillConsumption = getConsumption(electricityBill, 'electricity', dates)
+      let mappingdata = makeDataChartable(electricityBillConsumption)
       setElectricityData(mappingdata)
-      setHighchartDates(generateHighchartDates(billData))
+      setHighchartDates(generateHighchartDates(electricityBillConsumption))
     } else {
       setElectricityData([false])
       if (waterData[0] === false && gasData[0] === false) {
@@ -122,7 +110,6 @@ function App() {
     let endingValue = endDate
     setStartDate(startingValue)
     setEndDate(endingValue)
-    // this chunk of code should be in its own function thats located in helpers ------------------------------------------
     let dates = datesToArray(startingValue, endingValue)
     
     if (waterData[0] !== false) {
@@ -149,8 +136,6 @@ function App() {
     }
   }
 
-  // https://www.npmjs.com/package/react-datepicker need to figure this part out
-
   return (
     <div>
       <div className={'top-head'}>
@@ -163,7 +148,7 @@ function App() {
       </div>
       <div className={'float-container'}>
       <div className={'float-child', 'calender', 'left-calender'}>
-          From
+          <h3>From</h3>
           <DatePicker selected={startDate} 
 
             onChange={(v => datesToArrays(v, endDate, waterData, gasData, electricityData))} 
@@ -178,7 +163,7 @@ function App() {
           />
           </div>
           <div className={'float-child', 'calender', 'right-calender'}>
-          To
+          <h3>To</h3>
           <DatePicker selected={endDate} 
             onChange={(v => datesToArrays(startDate, v, waterData, gasData, electricityData))} 
             dateFormat="yyyy-MM" 

@@ -11,8 +11,7 @@ export function getConsumption(data, utility, dates) {
   let yearsAndMonths = []
   for (const bill of data) {
     let billMonth = bill['month']
-    // bills during or before 2016 start at zero index instead of 1, this takes care of that issue
-      // not the best practice but will check later if theres any other way to identify this issue
+    // handle the issues of there being 13 months
     if (bill['year'] <= '2016' && utility === 'water') {
       billMonth = ((Number(bill['month']) + 1).toString())
     } else if (utility === 'gas') {
@@ -45,7 +44,6 @@ export function getConsumption(data, utility, dates) {
   }
   // this function filters down our dates for years
   return removeNonSelectedDates(yearsAndMonths, dates)
-  //return yearsAndMonths
 }
 
 
