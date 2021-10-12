@@ -84,7 +84,6 @@ function App() {
       if (electricityData[0] === false && waterData[0] === false) {
         setHighchartDates(generateHighchartDates(['months']))
         }
-
     }
   };
 
