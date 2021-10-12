@@ -131,3 +131,7 @@ font-weight: 600;
 .float-child-checkbox{
   display: table;
 }
+
+.top-bar-logo {
+  width: 200px;
+}

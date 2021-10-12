@@ -9,8 +9,8 @@ import HighchartsReact from 'highcharts-react-official'
 import { getConsumption, makeDataChartable } from "./helpers/filterBill";
 import { generateHighchartDates } from "./helpers/generateHighchartDates"
 import { datesToArray } from "./helpers/datesToArray"
-import { BiGasPump, BiWater,  } from "react-icons/bi";
-import { FaBolt } from "react-icons/fa";
+import { FaWater, FaGasPump } from "react-icons/fa";
+import { BsFillLightningFill } from "react-icons/bs"
 
 function App() {
   const [waterChecked, setWaterChecked] = React.useState(true);
@@ -138,6 +138,7 @@ function App() {
   return (
     <div>
       <div className={'top-head'}>
+        <img src="/images/spg-head.png" className={'top-bar-logo'}></img>
       <h1 className={'top-head-text'}>SPG Customer Consumption Metrics</h1>
       </div>
       <div className={'float-container'}>
@@ -187,7 +188,7 @@ function App() {
             <div className={'float-child-checkbox'}>
             <Checkbox
               labelPlacement="top"
-              icon={<BiWater/>}
+              icon={<FaWater/>}
               waterChecked={waterChecked}
               onChange={handleChangeWater}
               defaultChecked={false}
@@ -206,7 +207,7 @@ function App() {
             <h3>Gasoline</h3>
             <div className={'float-child-checkbox'}>
             <Checkbox
-              icon={<BiGasPump/>}
+              icon={<FaGasPump/>}
               gasChecked={gasChecked}
               onChange={handleChangeGas}
               defaultChecked={false}
@@ -224,7 +225,7 @@ function App() {
             <h3>Electricity</h3>
             <div className={'float-child-checkbox'}>
             <Checkbox
-              icon={<FaBolt/>}
+              icon={<BsFillLightningFill/>}
               electricityChecked={electricityChecked}
               onChange={handleChangeElectricity}
               inputProps={{ 'aria-label': 'controlled' }}
