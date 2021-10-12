@@ -9,6 +9,7 @@ import HighchartsReact from 'highcharts-react-official'
 import { getConsumption, makeDataChartable } from "./helpers/filterBill";
 import { generateHighchartDates } from "./helpers/generateHighchartDates"
 import { datesToArray } from "./helpers/datesToArray"
+//import "./styles/datepicker.scss"
 // need to do: make the handlechange functions just 1 function
 // render dates at every instance of rerendering bill components
 // show only dates within that specific timeline
@@ -151,12 +152,16 @@ function App() {
 
   return (
     <div>
-      <div className={'top'}>
-      <h1 >SPG Customer Consumption Metrics</h1>
+      <div className={'top-head'}>
+      <h1 className={'top-head-text'}>SPG Customer Consumption Metrics</h1>
       </div>
       <div className={'float-container'}>
       <div className={'float-child'}> 
-      <h2>Search by date</h2>
+      <div className={'filter-head-container'}>
+      <h2 className={'date-head'}>Filter By Date</h2>
+      </div>
+      <div className={'float-container'}>
+      <div className={'float-child', 'calender', 'left-calender'}>
           From
           <DatePicker selected={startDate} 
             onChange={(v => datesToArrays(v, endDate, waterData, gasData, electricityData))} 
@@ -169,6 +174,8 @@ function App() {
             placeholderText='Results from' 
             defaultDate={''}
           />
+          </div>
+          <div className={'float-child', 'calender', 'right-calender'}>
           To
           <DatePicker selected={endDate} 
             onChange={(v => datesToArrays(startDate, v, waterData, gasData, electricityData))} 
@@ -181,9 +188,13 @@ function App() {
             placeholderText='Results to' 
             defaultDate={''}
           />
+          </div>
+      </div>
       </div>
       <div className={'float-child'}>
-      <h2>Search by utility type</h2>
+      <div className={'filter-head-container'}>
+      <h2 className={'date-head'}>Filter By Utility</h2>
+      </div>
         <ul>           
           <ul>
             <Checkbox

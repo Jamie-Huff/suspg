@@ -77,15 +77,33 @@ font-weight: 600;
 
 .float-container {
   display: flex;
+  justify-content: space-around;
 }
 
-.float-child { 
+.float-child  { 
   flex: 1;
-  border: 2px solid yellow;
 }
 
-.top {
-  background-color: greenyellow;
+.top-head {
+  background-color: #A4C268;
   margin: 0px;
   padding: 20px;
+}
+
+.top-head-text {
+  color: #54595F;
+  margin-left: 150px;
+}
+
+.date-head {
+  margin: 0px;
+  padding: 20px;
+}
+
+.filter-head-container {
+  text-align: center;
+  background-color: #54595F;
+  color: white;
+  margin: 0px;
+
 }
