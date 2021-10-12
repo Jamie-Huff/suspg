@@ -1,5 +1,5 @@
 import React, { useState, Component } from "react";
-import './App.css';
+import './styles/App.css';
 import useApplicationData from './hooks/useApplicationData';
 import Checkbox from '@material-ui/core/Checkbox';
 import DatePicker from "react-datepicker";
@@ -10,7 +10,7 @@ import { getConsumption, makeDataChartable } from "./helpers/filterBill";
 import { generateHighchartDates } from "./helpers/generateHighchartDates"
 import { datesToArray } from "./helpers/datesToArray"
 import { FaWater, FaGasPump } from "react-icons/fa";
-import { BsFillLightningFill } from "react-icons/bs"
+import { BsFillLightningFill } from "react-icons/bs";
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -73,11 +73,6 @@ function App() {
       categories: highchartDates
     }
   }
-
-  
-  
-
-
 
   const handleChangeWater = (event) => {
     const checked = event.target.checked;
@@ -166,7 +161,9 @@ function App() {
     <div>
       <div className={'top-head'}>
         <img src="/images/spg-head.png" className={'top-bar-logo'}></img>
+        <div>
       <h1 className={'top-head-text'}>SPG Customer Consumption Metrics</h1>
+      </div>
       </div>
       <div className={'float-container'}>
       <div className={'float-child'}> 

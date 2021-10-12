@@ -88,11 +88,14 @@ font-weight: 600;
   background-color: #A4C268;
   margin: 0px;
   padding: 20px;
+  display: flex;
 }
 
 .top-head-text {
   color: #54595F;
-  margin-left: 150px;
+  font-size: 40px;
+  margin-left: 600px;
+  margin-top: 40px;
 }
 
 .date-head {
