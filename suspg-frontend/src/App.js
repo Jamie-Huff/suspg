@@ -174,7 +174,6 @@ function App() {
       <div className={'float-child', 'calender', 'left-calender'}>
           <h3>From</h3>
           <DatePicker selected={startDate} 
-
             onChange={(v => datesToArrays(v, endDate, waterData, gasData, electricityData))} 
             dateFormat="yyyy-MM" 
             showMonthYearPicker 

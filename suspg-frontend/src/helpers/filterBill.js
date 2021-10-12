@@ -77,6 +77,25 @@ export function removeNonSelectedDates(billData, dates) {
     if (Number(year['year']) > Number(endDate[1])) {
       continue
     }
+    // if same year for both start date and end date
+    if (Number(year['year']) === Number(startDate[1]) && Number(year['year']) === Number(endDate[1])) {
+      let fixedYear = {months: {}, year: year['year']}
+      let i = 1
+      console.log(startDate[0], endDate[0])
+      for (const months in year['months']) {
+        if (Number(months) < startDate[0] || Number(months) > endDate[0]) {
+          i++
+          continue
+        } else {
+          fixedYear['months'][i] = year['months'][months]
+          i++
+        }
+      }
+      console.log(fixedYear)
+      billDataYearsRemoved.push(fixedYear)
+      continue
+    }
+
     // if year same, remove months before than the starting month selected
     if (Number(year['year']) === Number(startDate[1])) {
       let fixedYear = {months: {}, year: year['year']}
